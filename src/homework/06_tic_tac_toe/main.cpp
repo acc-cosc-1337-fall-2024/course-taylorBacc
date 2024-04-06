@@ -1,5 +1,4 @@
 #include "tic_tac_toe.h"
-
 #include<iostream>
 #include <string>
 
@@ -17,6 +16,12 @@ int main()
 
 		cout<<"Enter first player: ";
 		cin>>first_player;
+
+		while(first_player != "X" && first_player != "O")
+		{
+			cout<<"Please enter only X or O: ";
+			cin>>first_player;
+		}
 
 		game.start_game(first_player);
 
