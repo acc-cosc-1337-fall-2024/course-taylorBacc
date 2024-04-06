@@ -35,6 +35,8 @@ int main()
 			game.display_board();
 		}
 
+		cout<<"Winner is: "<<game.get_winner()<<"!\n";
+
 		cout<<"Play again, enter y or Y?";
 		cin>>user_choice;
 
