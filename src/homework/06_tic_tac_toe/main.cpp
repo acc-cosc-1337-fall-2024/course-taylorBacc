@@ -34,8 +34,14 @@ int main()
 			game.mark_board(position);
 			game.display_board();
 		}
-
+		if(game.get_winner()=="C")
+		{
+			cout<<"The game is a tie!\n";
+		}
+		else
+		{
 		cout<<"Winner is: "<<game.get_winner()<<"!\n";
+		}
 
 		cout<<"Play again, enter y or Y?";
 		cin>>user_choice;
