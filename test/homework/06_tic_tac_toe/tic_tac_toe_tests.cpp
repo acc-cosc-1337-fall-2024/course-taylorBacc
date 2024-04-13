@@ -1,12 +1,13 @@
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 #include "tic_tac_toe.h"
+#include "tic_tac_toe_manager.h"
 
 TEST_CASE("Verify Test Configuration", "verification") {
 	REQUIRE(true == true);
 }
 
-TEST_CASE("Test if the board is full"){
+TEST_CASE("Test full games"){
 	TicTacToe game;
 
 	game.start_game("X");
@@ -47,6 +48,7 @@ TEST_CASE("Test if the board is full"){
 	REQUIRE(game.game_over() == false);
 	game.mark_board(7); //x
 	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "X");
 
 	game.start_game("X");
 	game.mark_board(2); //x
@@ -59,6 +61,7 @@ TEST_CASE("Test if the board is full"){
 	REQUIRE(game.game_over() == false);
 	game.mark_board(8); //x
 	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "X");
 
 	game.start_game("X");
 	game.mark_board(3); //x
@@ -71,6 +74,7 @@ TEST_CASE("Test if the board is full"){
 	REQUIRE(game.game_over() == false);
 	game.mark_board(9); //x
 	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "X");
 
 	game.start_game("X");
 	game.mark_board(1); //x
@@ -83,6 +87,7 @@ TEST_CASE("Test if the board is full"){
 	REQUIRE(game.game_over() == false);
 	game.mark_board(3); //x
 	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "X");
 
 	game.start_game("X");
 	game.mark_board(4); //x
@@ -95,6 +100,7 @@ TEST_CASE("Test if the board is full"){
 	REQUIRE(game.game_over() == false);
 	game.mark_board(6); //x
 	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "X");
 
 	game.start_game("X");
 	game.mark_board(7); //x
@@ -107,6 +113,7 @@ TEST_CASE("Test if the board is full"){
 	REQUIRE(game.game_over() == false);
 	game.mark_board(9); //x
 	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "X");
 
 	game.start_game("X");
 	game.mark_board(1); //x
@@ -119,6 +126,7 @@ TEST_CASE("Test if the board is full"){
 	REQUIRE(game.game_over() == false);
 	game.mark_board(9); //x
 	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "X");
 
 	game.start_game("X");
 	game.mark_board(7); //x
@@ -131,4 +139,69 @@ TEST_CASE("Test if the board is full"){
 	REQUIRE(game.game_over() == false);
 	game.mark_board(3); //x
 	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "X");
+}
+
+TEST_CASE("test manager"){
+	TicTacToe game;
+	TicTacToeManager mgr;
+
+	int x;
+	int o;
+	int t;
+
+	game.start_game("X");
+	game.mark_board(1); //x
+	REQUIRE(game.game_over() == false);
+	game.mark_board(3); //o
+	REQUIRE(game.game_over() == false);
+	game.mark_board(2); //x
+	REQUIRE(game.game_over() == false);
+	game.mark_board(4); //o
+	REQUIRE(game.game_over() == false);
+	game.mark_board(5); //x
+	REQUIRE(game.game_over() == false);
+	game.mark_board(8); //o
+	REQUIRE(game.game_over() == false);
+	game.mark_board(6); //x
+	REQUIRE(game.game_over() == false);
+	game.mark_board(9); //o
+	REQUIRE(game.game_over() == false);
+	game.mark_board(7); //x
+	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "C");
+	mgr.save_game(game);
+
+	game.start_game("X");
+	game.mark_board(1); //x
+	REQUIRE(game.game_over() == false);
+	game.mark_board(2); //o
+	REQUIRE(game.game_over() == false);
+	game.mark_board(4); //x
+	REQUIRE(game.game_over() == false);
+	game.mark_board(3); //o
+	REQUIRE(game.game_over() == false);
+	game.mark_board(7); //x
+	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "X");
+	mgr.save_game(game);
+
+	game.start_game("O");
+	game.mark_board(2); //o
+	REQUIRE(game.game_over() == false);
+	game.mark_board(1); //x
+	REQUIRE(game.game_over() == false);
+	game.mark_board(5); //o
+	REQUIRE(game.game_over() == false);
+	game.mark_board(3); //x
+	REQUIRE(game.game_over() == false);
+	game.mark_board(8); //o
+	REQUIRE(game.game_over() == true);
+	REQUIRE(game.get_winner() == "O");
+	mgr.save_game(game);
+
+	mgr.get_winner_total(x, o, t);
+	REQUIRE(x == 1);
+	REQUIRE(o == 1);
+	REQUIRE(t == 1);
 }
