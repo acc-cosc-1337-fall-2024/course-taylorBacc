@@ -1,7 +1,10 @@
 #include "tic_tac_toe.h"
 #include "tic_tac_toe_manager.h"
+#include "tic_tac_toe_3.h"
+#include "tic_tac_toe_4.h"
 #include<iostream>
 #include <string>
+#include<memory>
 
 using std::cout; using std::cin; using std::string;
 
@@ -13,10 +16,29 @@ int main()
 	int x;
 	int o;
 	int t;
+	char game_size;
 
 	do
 	{
-		TicTacToe game;
+		std::unique_ptr<TicTacToe> game;
+
+		cout<<"3x3 or 4x4 grid size? (3 or 4): ";
+		cin>>game_size;
+
+		while(game_size != '3' && game_size != '4')
+		{
+			cout<<"Incorrect value, only enter 3 or 4: ";
+			cin>>game_size;
+		}
+		
+		if(game_size == '3')
+			{
+				game = std::make_unique<TicTacToe3>();
+			}
+			else if(game_size == '4')
+			{
+				game = std::make_unique<TicTacToe4>();
+			}
 
 		cout<<"Enter first player: ";
 		cin>>first_player;
@@ -27,26 +49,27 @@ int main()
 			cin>>first_player;
 		}
 
-		game.start_game(first_player);
+		game->start_game(first_player);
 
 		int position;
 
-		while(!game.game_over())
+		while(!game->game_over())
 		{
 			cout<<"Enter a position: ";
 			cin>>position;
-			game.mark_board(position);
-			game.display_board();
+			game->mark_board(position);
+			game->display_board();
 		}
-		if(game.get_winner()=="C")
+		if(game->get_winner()=="C")
 		{
 			cout<<"The game is a tie!\n";
 		}
 		else
 		{
-		cout<<"Winner is: "<<game.get_winner()<<"!\n";
+		cout<<"Winner is: "<<game->get_winner()<<"!\n";
 		}
 
+		*game;
 		mgr.save_game(game);
 		mgr.get_winner_total(x, o, t);
 
@@ -56,6 +79,12 @@ int main()
 		cin>>user_choice;
 
 	}while(user_choice == 'y' || user_choice == 'Y');
+
+	cout<<"Here are all the games that were played:\n";
+
+	mgr.display_all_games();
+
+	cout<<"Thanks for playing!\n";
 
 	return 0;
 }
